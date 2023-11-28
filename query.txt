@@ -1,0 +1,18 @@
+SELECT 
+	schedule.subject subject,
+	cabs.name classroom,
+	schedule.start_lesson,
+	schedule.finish_lesson,
+	classes.name class_name,
+	teachers.first_name + ' ' + teachers.lastname teacher_name,
+	students.first_name + ' ' + students.lastname student_name,
+	students.row row,
+	students.desk desk,
+	students.variant variant
+FROM schedule
+LEFT JOIN cabs ON schedule.classroom = cabs.id
+LEFT JOIN classes ON schedule.class_id = classes.id
+LEFT JOIN people ON schedule.teacher_id = people.id teachers
+RIGHT JOIN people ON classes.id = people.class_id students
+WHERE
+	schedule.start_lesson = :start_lesson AND schedule.finish_lesson = :finish_lesson
